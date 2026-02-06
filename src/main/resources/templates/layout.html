@@ -1,0 +1,56 @@
+<!doctype html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org"
+      th:fragment="layout(pageTitle, content)">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    <title th:text="${pageTitle} ?: '#{app.title}'"></title>
+
+    <!-- Bootstrap 5 (CSS) -->
+    <link rel="stylesheet" th:href="@{/css/bootstrap.min.css}">
+
+    <!-- Optional: place for per-page extra head content -->
+    <th:block th:fragment="head-extra"></th:block>
+</head>
+
+<body>
+<header class="border-bottom bg-light">
+    <nav class="navbar navbar-expand-lg">
+        <div class="container">
+            <a class="navbar-brand fw-semibold" th:href="@{/}" th:text="#{app.title}"></a>
+
+            <button class="navbar-toggler" type="button"
+                    data-bs-toggle="collapse" data-bs-target="#mainNav"
+                    aria-controls="mainNav" aria-expanded="false" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+
+            <div class="collapse navbar-collapse" id="mainNav">
+                <ul class="navbar-nav ms-auto">
+                    <li class="nav-item">
+                        <a class="nav-link" th:href="@{/products}" th:text="#{nav.products}"></a>
+                    </li>
+                    <!-- Add more nav items as needed -->
+                </ul>
+            </div>
+        </div>
+    </nav>
+</header>
+
+<main class="container py-4">
+    <th:block th:replace="${content}"></th:block>
+</main>
+
+<footer class="border-top py-3">
+    <div class="container small text-muted">
+        <span th:text="#{app.title}">&copy; <span th:text="${#dates.format(#dates.createNow(), 'yyyy')}">2026</span></span>
+    </div>
+</footer>
+
+<script th:src="@{/js/bootstrap.min.js}"></script>
+
+<!-- Optional: place for per-page scripts -->
+<th:block th:fragment="scripts"></th:block>
+</body>
+</html>
