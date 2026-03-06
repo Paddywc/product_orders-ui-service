@@ -3,6 +3,7 @@ package product.orders.uiservice.controller;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.security.oauth2.server.resource.autoconfigure.servlet.OAuth2ResourceServerAutoConfiguration;
 import org.springframework.boot.webmvc.test.autoconfigure.WebMvcTest;
 import org.springframework.context.annotation.Import;
 import org.springframework.test.context.ActiveProfiles;
@@ -18,7 +19,8 @@ import static org.mockito.Mockito.when;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
 
-@WebMvcTest(controllers = TestExceptionThrowingController.class)
+@WebMvcTest(controllers = TestExceptionThrowingController.class,
+        excludeAutoConfiguration = OAuth2ResourceServerAutoConfiguration.class)
 @Import(UIControllerAdvice.class)
 @ActiveProfiles("test")
 class UIControllerAdviceTest {
