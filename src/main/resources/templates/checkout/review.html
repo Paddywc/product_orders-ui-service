@@ -1,0 +1,109 @@
+<!doctype html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org"
+      th:replace="~{layout :: layout(#{checkout.title}, ~{::section})}">
+<body>
+<section class="checkout" id="checkout-review-section">
+
+    <div class="alert alert-danger" role="alert" th:if="${backendServiceError}">
+        <span th:text="#{checkout.error.backend}"></span>
+    </div>
+
+    <div class="checkout-header">
+        <div>
+            <h1 class="checkout-title" th:text="#{checkout.title}"></h1>
+            <p class="checkout-subtitle" th:text="#{checkout.subtitle}"></p>
+        </div>
+        <a class="btn btn-outline-secondary" th:href="@{/cart}" th:text="#{checkout.backToCart}"></a>
+    </div>
+
+    <div class="row checkout-grid">
+        <div class="col-12 col-lg-7">
+            <div class="card app-card checkout-card">
+                <div class="card-body">
+                    <h2 class="card-title checkout-section-title" th:text="#{checkout.items.title}"></h2>
+
+                    <div class="table-responsive">
+                        <table class="table checkout-table">
+                            <thead>
+                            <tr>
+                                <th scope="col" th:text="#{checkout.table.product}"></th>
+                                <th scope="col" class="checkout-cell-end" th:text="#{checkout.table.unitPrice}"></th>
+                                <th scope="col" class="checkout-cell-end" th:text="#{checkout.table.quantity}"></th>
+                                <th scope="col" class="checkout-cell-end" th:text="#{checkout.table.total}"></th>
+                            </tr>
+                            </thead>
+                            <tbody>
+                            <tr th:each="item : ${cart.items}">
+                                <td>
+                                    <div class="checkout-item-name" th:text="${item.productName}"></div>
+                                </td>
+                                <td class="checkout-cell-end" th:text="${item.perUnitPriceFormatted}"></td>
+                                <td class="checkout-cell-end" th:text="${item.quantity}"></td>
+                                <td class="checkout-cell-end checkout-item-total" th:text="${item.totalPriceFormatted}">
+                                </td>
+                            </tr>
+                            </tbody>
+                            <tfoot>
+                            <tr>
+                                <td colspan="3" class="checkout-total-label" th:text="#{checkout.summary.total}"></td>
+                                <td class="checkout-total-value" th:text="${cart.totalPriceFormatted}"></td>
+                            </tr>
+                            </tfoot>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-12 col-lg-5">
+            <div class="card app-card">
+                <div class="card-body">
+                    <h2 class="card-title checkout-section-title" th:text="#{checkout.form.title}"></h2>
+
+                    <form class="checkout-form"
+                          th:action="@{/checkout}"
+                          method="post"
+                          th:object="${checkoutForm}">
+                        <div class="checkout-field">
+                            <label class="form-label checkout-label" for="checkout-email"
+                                   th:text="#{checkout.form.email}">
+                            </label>
+                            <input class="form-control"
+                                   id="checkout-email"
+                                   type="email"
+                                   th:field="*{customerEmail}"
+                                   required>
+                            <div class="checkout-error"
+                                 th:if="${#fields.hasErrors('customerEmail')}"
+                                 th:errors="*{customerEmail}">
+                            </div>
+                        </div>
+
+                        <div class="checkout-field">
+                            <label class="form-label checkout-label" for="checkout-address"
+                                   th:text="#{checkout.form.address}">
+                            </label>
+                            <textarea class="form-control"
+                                      id="checkout-address"
+                                      rows="4"
+                                      th:field="*{customerAddress}"
+                                      required>
+                            </textarea>
+                            <div class="checkout-error"
+                                 th:if="${#fields.hasErrors('customerAddress')}"
+                                 th:errors="*{customerAddress}">
+                            </div>
+                        </div>
+
+                        <button class="btn btn-primary checkout-submit"
+                                type="submit"
+                                th:text="#{checkout.form.submit}">
+                        </button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+</body>
+</html>

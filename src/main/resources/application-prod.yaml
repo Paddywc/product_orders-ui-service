@@ -1,0 +1,29 @@
+server:
+  port: 8085
+
+spring:
+  application:
+    name: ui-service
+
+store:
+  currency: "USD"
+
+services:
+  product-service:
+    base-url: ${PRODUCT_SERVICE_BASE_URL}
+  order-service:
+    base-url: ${ORDER_SERVICE_BASE_URL}
+  auth-service:
+    base-url: ${AUTH_SERVICE_BASE_URL}
+  payment-service:
+    base-url: ${PAYMENT_SERVICE_BASE_URL}
+
+management:
+  endpoint:
+    health:
+      probes:
+        enabled: true
+  endpoints:
+    web:
+      exposure:
+        include: health,info

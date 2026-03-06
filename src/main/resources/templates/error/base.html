@@ -1,0 +1,19 @@
+<!doctype html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org"
+      th:fragment="errorLayout(pageTitle, titleText, subtitleText)"
+      th:replace="~{layout :: layout(${pageTitle}, ~{::section})}">
+<body>
+<section id="error-view-section">
+    <div class="card app-card">
+        <div class="card-body">
+            <h1 class="h3 mb-2" th:text="${titleText}"></h1>
+            <p class="text-muted mb-3" th:text="${subtitleText}"></p>
+
+            <div class="alert alert-danger mb-0" role="alert">
+                <span th:text="${errorMessage}"></span>
+            </div>
+        </div>
+    </div>
+</section>
+</body>
+</html>

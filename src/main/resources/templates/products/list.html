@@ -1,0 +1,72 @@
+<!doctype html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org"
+      th:replace="~{layout :: layout(#{nav.products}, ~{::section})}">
+<body>
+<section  id="products-list-section">
+    <div class="alert alert-warning products-alert"
+         role="alert"
+         th:if="${productNotFound}">
+        <div th:text="#{products.alert.notFound}"></div>
+    </div>
+
+    <div class="alert alert-success products-alert"
+         role="alert"
+         th:if="${cartAdded}">
+        <div th:text="#{products.alert.added}"></div>
+        <a class="alert-link" th:href="@{/cart}" th:text="#{products.alert.added.linkToCart}"></a>
+    </div>
+
+    <div class="products-toolbar">
+        <div>
+            <h1 class="products-title" th:text="#{nav.products}"></h1>
+            <p class="products-subtitle" th:text="#{products.list.subtitle}"></p>
+        </div>
+
+        <form class="products-filter" method="get" th:action="@{/products}">
+            <select class="form-select"
+                    name="category"
+                    aria-label="Category">
+                <option value="" th:text="#{products.list.filter.category.all}"></option>
+
+                <option th:each="c : ${categories}"
+                        th:value="${c.name}"
+                        th:selected="${param.category != null and param.category[0] == c.name}"
+                        th:text="${#strings.capitalize(#strings.toLowerCase(c.name))}">
+                </option>
+            </select>
+
+            <button class="btn btn-primary" type="submit" th:text="#{products.list.filter.submit}"></button>
+            <a class="btn btn-outline-secondary" th:href="@{/products}" th:text="#{products.list.filter.reset}"></a>
+        </form>
+    </div>
+
+    <div class="alert alert-info"
+         th:if="${products == null or products.products == null or #lists.isEmpty(products.products)}"
+         th:text="#{products.list.empty}">
+    </div>
+
+    <div class="row products-grid"
+         th:if="${products != null and products.products != null and !#lists.isEmpty(products.products)}">
+        <div class="col-12 col-md-6 col-lg-4" th:each="product : ${products.products}">
+            <div class="card app-card product-card">
+                <div class="card-body">
+                    <div class="product-card-header">
+                        <h2 class="card-title product-card-title" th:text="${product.name}"></h2>
+                        <span class="badge category-badge"
+                              th:text="${#strings.capitalize(#strings.toLowerCase(product.category))}">
+                        </span>
+                    </div>
+
+                    <div class="product-price" th:text="${product.priceFormatted}"></div>
+
+                    <a class="btn btn-sm btn-outline-primary"
+                       th:href="@{/products/{id}(id=${product.productId})}"
+                       th:text="#{products.list.viewDetails}">
+                    </a>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+</body>
+</html>

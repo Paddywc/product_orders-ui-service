@@ -1,0 +1,109 @@
+<!doctype html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org"
+      th:replace="~{layout :: layout(#{order.title}, ~{::section})}">
+<body>
+<section id="order-view-section">
+
+    <div class="alert alert-danger" role="alert" th:if="${paymentCancelled}">
+        <span th:text="#{order.payment.canceled}"></span>
+    </div>
+
+    <div class="alert alert-success" role="alert" th:if="${paymentSuccess}">
+        <span th:text="#{order.payment.completed}"></span>
+    </div>
+
+    <div class="d-flex flex-wrap align-items-center justify-content-between gap-3 mb-4 order-header">
+        <div>
+            <h1 class="h3 mb-1 order-title" th:text="#{order.title}"></h1>
+            <p class="text-muted mb-0 order-subtitle" th:text="#{order.subtitle}"></p>
+        </div>
+        <a class="btn btn-outline-secondary" th:href="@{/orders}" th:text="#{order.list.title}"></a>
+    </div>
+
+    <div class="row g-4">
+        <div class="col-12 col-lg-12">
+            <div class="card app-card mb-4">
+                <div class="card-body">
+                    <h2 class="h5 mb-3 order-section-title" th:text="#{order.summary.title}"></h2>
+
+                    <dl class="row mb-0 order-meta-list">
+                        <dt class="col-5 text-muted order-meta-term" th:text="#{order.number}"></dt>
+                        <dd class="col-7 mb-2 order-meta-value" th:text="${order.orderId}"></dd>
+
+                        <dt class="col-5 text-muted order-meta-term" th:text="#{order.placedOn}"></dt>
+                        <dd class="col-7 mb-2 order-meta-value" th:text="${order.orderDateFormatted}"></dd>
+
+                        <dt class="col-5 text-muted order-meta-term" th:text="#{order.progress}"></dt>
+                        <dd class="col-7 mb-2 order-meta-value" th:text="${order.progress}"></dd>
+
+                        <dt class="col-5 text-muted order-meta-term" th:text="#{order.total}"></dt>
+                        <dd class="col-7 mb-2 fw-semibold order-meta-value order-meta-value--total"
+                            th:text="${order.totalPriceFormatted}"></dd>
+
+                        <dt class="col-5 text-muted order-meta-term" th:text="#{order.paymentStatus.title}"></dt>
+                        <dd class="col-7 mb-0 order-meta-value" th:text="${order.paymentStatus}"></dd>
+                    </dl>
+                </div>
+            </div>
+
+            <div class="card app-card">
+                <div class="card-body">
+                    <h2 class="h5 mb-3 order-section-title" th:text="#{order.customer.title}"></h2>
+
+                    <div class="mb-2">
+                        <div class="text-muted small order-customer-label" th:text="#{order.customer.email}"></div>
+                        <div th:text="${order.customerEmail}"></div>
+                    </div>
+
+                    <div>
+                        <div class="text-muted small order-customer-label" th:text="#{order.customer.address}"></div>
+                        <div th:text="${order.customerAddress}"></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-12 col-lg-12">
+            <div class="card app-card">
+                <div class="card-body">
+                    <h2 class="h5 mb-3 order-section-title" th:text="#{order.items.title}"></h2>
+
+                    <div class="alert alert-info"
+                         th:if="${order == null or order.orderItems == null or #lists.isEmpty(order.orderItems)}"
+                         th:text="#{order.items.empty}">
+                    </div>
+
+                    <div class="table-responsive"
+                         th:if="${order != null and order.orderItems != null and !#lists.isEmpty(order.orderItems)}">
+                        <table class="table align-middle mb-0 order-table">
+                            <thead>
+                            <tr>
+                                <th scope="col" th:text="#{order.table.product}"></th>
+                                <th scope="col" class="text-end" th:text="#{order.table.unitPrice}"></th>
+                                <th scope="col" class="text-end" th:text="#{order.table.quantity}"></th>
+                            </tr>
+                            </thead>
+                            <tbody>
+                            <tr th:each="item : ${order.orderItems}">
+                                <td>
+                                    <div class="fw-semibold order-item-name" th:text="${item.productName}"></div>
+                                </td>
+                                <td class="text-end" th:text="${item.unitPriceFormatted}"></td>
+                                <td class="text-end" th:text="${item.quantity}"></td>
+                            </tr>
+                            </tbody>
+                            <tfoot>
+                            <tr>
+                                <td class="text-end text-muted order-total-label" colspan="2" th:text="#{order.total}"></td>
+                                <td class="text-end fw-semibold order-total-value" th:text="${order.totalPriceFormatted}"></td>
+                            </tr>
+                            </tfoot>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+</body>
+</html>

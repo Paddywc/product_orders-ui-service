@@ -1,0 +1,64 @@
+@use "variables" as *;
+
+.app-shell {
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+}
+
+.app-header {
+  border-bottom: 1px solid var(--bs-border-color, #dee2e6);
+  background-color: var(--bs-light, #f8f9fa);
+}
+
+.app-brand {
+  font-weight: 600;
+}
+
+.app-nav {
+  margin-left: auto;
+}
+
+.app-nav .nav-item {
+  display: flex;
+  align-items: center;
+}
+
+.app-nav .nav-item form {
+  margin-left: 8px;
+}
+
+.app-nav .nav-link.btn {
+  padding: var(--bs-nav-link-padding-y, 0.5rem) var(--bs-nav-link-padding-x, 1rem);
+}
+
+.nav-cart-link {
+  display: flex;
+  align-items: center;
+  gap: $space-2;
+}
+
+.nav-cart-badge {
+  background-color: var(--bs-primary, #0d6efd);
+  color: #fff;
+}
+
+.app-main {
+  padding: $space-4 0;
+  flex-grow: 1;
+}
+
+.app-footer {
+  border-top: 1px solid var(--bs-border-color, #dee2e6);
+  padding: $space-3 0;
+  margin-top: auto;
+}
+
+.app-footer-text {
+  font-size: 0.875rem;
+  color: var(--bs-secondary-color, #6c757d);
+}
+
+.app-card {
+  box-shadow: $shadow-sm;
+}

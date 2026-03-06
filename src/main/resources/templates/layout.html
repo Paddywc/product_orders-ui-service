@@ -1,5 +1,5 @@
 <!doctype html>
-<html lang="en" xmlns:th="http://www.thymeleaf.org"
+<html lang="en" xmlns:th="http://www.thymeleaf.org"  xmlns:sec="http://www.thymeleaf.org/extras/spring-security"
       th:fragment="layout(pageTitle, content)">
 <head>
     <meta charset="utf-8">
@@ -10,15 +10,18 @@
     <!-- Bootstrap 5 (CSS) -->
     <link rel="stylesheet" th:href="@{/css/bootstrap.min.css}">
 
+    <!-- Compiled SCSS -->
+    <link rel="stylesheet" th:href="@{/css/main.css}">
+
     <!-- Optional: place for per-page extra head content -->
     <th:block th:fragment="head-extra"></th:block>
 </head>
 
-<body>
-<header class="border-bottom bg-light">
+<body class="app-shell">
+<header class="app-header">
     <nav class="navbar navbar-expand-lg">
         <div class="container">
-            <a class="navbar-brand fw-semibold" th:href="@{/}" th:text="#{app.title}"></a>
+            <a class="navbar-brand app-brand" th:href="@{/}" th:text="#{app.title}"></a>
 
             <button class="navbar-toggler" type="button"
                     data-bs-toggle="collapse" data-bs-target="#mainNav"
@@ -27,9 +30,33 @@
             </button>
 
             <div class="collapse navbar-collapse" id="mainNav">
-                <ul class="navbar-nav ms-auto">
+                <ul class="navbar-nav app-nav">
                     <li class="nav-item">
                         <a class="nav-link" th:href="@{/products}" th:text="#{nav.products}"></a>
+                    </li>
+
+                    <li class="nav-item" th:if="${isAuthenticated}">
+                        <a class="nav-link" th:href="@{/orders}" th:text="#{nav.orders}"></a>
+                    </li>
+
+                    <li class="nav-item">
+                        <a class="nav-link nav-cart-link" th:href="@{/cart}">
+                            <span th:text="#{nav.cart}"></span>
+                            <span class="badge nav-cart-badge"
+                                  th:if="${cartItemCount > 0}"
+                                  th:text="${cartItemCount}">
+                            </span>
+                        </a>
+                    </li>
+                    <li class="nav-item" sec:authorize="!isAuthenticated()">
+                        <a class="nav-link" th:href="@{/login}" th:text="#{nav.login}"></a>
+                    </li>
+                    <li class="nav-item" sec:authorize="isAuthenticated()">
+                        <form th:action="@{/logout}" method="post">
+                            <button type="submit" class="nav-link btn btn-link" th:text="#{nav.logout}">
+
+                            </button>
+                        </form>
                     </li>
                     <!-- Add more nav items as needed -->
                 </ul>
@@ -38,12 +65,12 @@
     </nav>
 </header>
 
-<main class="container py-4">
+<main class="container app-main">
     <th:block th:replace="${content}"></th:block>
 </main>
 
-<footer class="border-top py-3">
-    <div class="container small text-muted">
+<footer class="app-footer">
+    <div class="container app-footer-text">
         <span th:text="#{app.title}">&copy; <span th:text="${#dates.format(#dates.createNow(), 'yyyy')}">2026</span></span>
     </div>
 </footer>

@@ -1,0 +1,48 @@
+<!doctype html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org"
+      th:replace="~{layout :: layout(#{login.title}, ~{::content})}">
+<th:block th:fragment="content">
+    <section class="auth-section">
+        <div class="row justify-content-center">
+            <div class="col-12 col-md-8 col-lg-5">
+                <div class="card shadow-sm">
+                    <div class="card-body p-4">
+                        <h1 class="h4 mb-3" th:text="#{login.title}"></h1>
+
+                        <div class="alert alert-danger" th:if="${loginError}" th:text="#{login.error.invalid}"></div>
+                        <div class="alert alert-warning" th:if="${backendServiceError}"
+                             th:text="#{login.error.service}"></div>
+
+                        <div th:if="${param.required}" class="alert alert-warning" th:text="#{login.required}">
+                        </div>
+
+                        <form th:action="@{/login}" th:object="${loginForm}" method="post" novalidate>
+                            <div class="mb-3">
+                                <label for="email" class="form-label" th:text="#{login.email}"></label>
+                                <input type="email" class="form-control" id="email" th:field="*{email}"
+                                       autocomplete="username" required>
+                                <div class="text-danger small mt-1" th:if="${#fields.hasErrors('email')}"
+                                     th:errors="*{email}"></div>
+                            </div>
+
+                            <div class="mb-3">
+                                <label for="password" class="form-label" th:text="#{login.password}"></label>
+                                <input type="password" class="form-control" id="password" th:field="*{password}"
+                                       autocomplete="current-password" required>
+                                <div class="text-danger small mt-1" th:if="${#fields.hasErrors('password')}"
+                                     th:errors="*{password}"></div>
+                            </div>
+
+                            <button type="submit" class="btn btn-primary w-100" th:text="#{login.submit}"></button>
+                        </form>
+
+                        <div class="text-center mt-3">
+                            <a th:href="@{/register}" th:text="#{login.register}"></a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+</th:block>
+</html>

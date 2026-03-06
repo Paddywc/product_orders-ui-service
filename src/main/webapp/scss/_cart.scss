@@ -1,0 +1,65 @@
+@use "variables" as *;
+
+#cart-view-section{
+
+.cart-header {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-between;
+  gap: $space-3;
+  margin-bottom: $space-3;
+}
+
+.cart-title {
+  font-size: $font-size-title;
+  line-height: 1.2;
+  margin: 0;
+}
+
+.cart-empty-text {
+  color: var(--bs-secondary-color, #6c757d);
+}
+
+.cart-actions {
+  display: flex;
+  gap: $space-2;
+}
+
+.cart-table {
+  margin-bottom: 0;
+}
+
+.cart-table th,
+.cart-table td {
+  vertical-align: middle;
+}
+
+.cart-cell-end {
+  text-align: right;
+}
+
+.cart-item-name {
+  font-weight: 600;
+}
+
+.cart-item-total {
+  text-align: right;
+  font-weight: 600;
+}
+
+.cart-total-label {
+  text-align: right;
+  color: var(--bs-secondary-color, #6c757d);
+}
+
+.cart-total-value {
+  text-align: right;
+  font-weight: 700;
+}
+
+.cart-inline-form {
+  display: inline;
+}
+
+}

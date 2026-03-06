@@ -6,6 +6,9 @@ import java.text.NumberFormat;
 import java.util.Currency;
 import java.util.Locale;
 
+/**
+ * Utility class for formatting monetary values. Formats USD cents into a display-friendly string.
+ */
 @Component
 public class MoneyFormatter {
 

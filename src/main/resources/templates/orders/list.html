@@ -1,0 +1,58 @@
+<!doctype html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org"
+      th:replace="~{layout :: layout(#{order.list.title}, ~{::section})}">
+<body>
+<section id="order-list-section">
+    <div class="d-flex flex-wrap align-items-center justify-content-between gap-3 mb-4">
+        <div>
+            <h1 class="h3 mb-1" th:text="#{order.list.title}"></h1>
+            <p class="text-muted mb-0" th:text="#{order.list.subtitle}"></p>
+        </div>
+        <a class="btn btn-outline-secondary" th:href="@{/products}" th:text="#{nav.back.products}"></a>
+    </div>
+
+    <div class="alert alert-warning"
+         th:if="${orderNotFound}"
+         th:text="#{order.list.notFound}">
+    </div>
+
+    <div class="alert alert-info"
+         th:if="${orders == null or #lists.isEmpty(orders)}"
+         th:text="#{order.list.empty}">
+    </div>
+
+    <div class="card app-card"
+         th:if="${orders != null and !#lists.isEmpty(orders)}">
+        <div class="card-body">
+            <div class="table-responsive">
+                <table class="table align-middle mb-0">
+                    <thead>
+                    <tr>
+                        <th scope="col" th:text="#{order.number}"></th>
+                        <th scope="col" th:text="#{order.placedOn}"></th>
+                        <th scope="col" th:text="#{order.progress}"></th>
+                        <th scope="col" class="text-end" th:text="#{order.total}"></th>
+                        <th scope="col" class="text-end" th:text="#{order.list.actions}"></th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    <tr th:each="order : ${orders}">
+                        <td class="fw-semibold" th:text="${order.orderId}"></td>
+                        <td th:text="${order.orderDateFormatted}"></td>
+                        <td th:text="${order.progress}"></td>
+                        <td class="text-end" th:text="${order.totalPriceFormatted}"></td>
+                        <td class="text-end">
+                            <a class="btn btn-sm btn-outline-primary"
+                               th:href="@{/orders/{id}(id=${order.orderId})}"
+                               th:text="#{order.list.viewDetails}">
+                            </a>
+                        </td>
+                    </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+</section>
+</body>
+</html>

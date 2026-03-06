@@ -1,0 +1,85 @@
+<!doctype html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org"
+      th:replace="~{layout :: layout(#{cart.title}, ~{::section})}">
+<body>
+<section id="cart-view-section">
+    <div class="cart-header">
+        <div>
+            <h1 class="cart-title" th:text="#{cart.title}"></h1>
+            <div class="cart-empty-text" th:if="${cart.empty}" th:text="#{cart.empty}"></div>
+        </div>
+
+        <div class="cart-actions">
+            <a class="btn btn-outline-secondary" th:href="@{/products}" th:text="#{nav.back.products}"></a>
+        </div>
+    </div>
+
+    <div class="card app-card" th:if="${!cart.empty}">
+        <div class="card-body">
+            <div class="table-responsive">
+                <table class="table cart-table">
+                    <thead>
+                    <tr>
+                        <th scope="col" th:text="#{cart.table.product}"></th>
+                        <th scope="col" class="cart-cell-end" th:text="#{cart.table.unitPrice}"></th>
+                        <th scope="col" class="cart-cell-end" th:text="#{cart.table.quantity}"></th>
+                        <th scope="col" class="cart-cell-end" th:text="#{cart.table.total}"></th>
+                        <th scope="col" class="cart-cell-end" th:text="#{cart.table.actions}"></th>
+                    </tr>
+                    </thead>
+
+                    <tbody>
+                    <tr th:each="item : ${cart.items}">
+                        <td>
+                            <div class="cart-item-name" th:text="${item.productName}"></div>
+                        </td>
+
+                        <td class="cart-cell-end"
+                            th:text="${item.unitPriceFormatted}">
+                        </td>
+
+                        <td class="cart-cell-end" th:text="${item.quantity}"></td>
+
+                        <td class="cart-item-total"
+                            th:text="${item.totalPriceFormatted}">
+                        </td>
+
+                        <td class="cart-cell-end">
+                            <form th:action="@{/cart/remove}" method="post" class="cart-inline-form">
+                                <input type="hidden" name="productId" th:value="${item.productId}"/>
+                                <button type="submit" class="btn btn-sm btn-outline-danger"
+                                        th:text="#{cart.remove}">
+                                </button>
+                            </form>
+                        </td>
+                    </tr>
+                    </tbody>
+
+                    <tfoot>
+                    <tr>
+                        <td colspan="3" class="cart-total-label" th:text="#{cart.grandTotal}"></td>
+                        <td class="cart-total-value"
+                            th:text="${cart.totalFormatted}">
+                        </td>
+                        <td></td>
+                    </tr>
+                    </tfoot>
+                </table>
+            </div>
+        </div>
+    </div>
+
+    <div class="d-flex justify-content-end mt-3" th:if="${!cart.empty}">
+        <a class="btn btn-primary"
+           th:href="@{/checkout}"
+           th:text="#{checkout.title}">
+        </a>
+    </div>
+
+    <div class="alert alert-info" role="alert" th:if="${cart.empty}">
+        <span th:text="#{cart.emptyHint}"></span>
+        <a class="alert-link" th:href="@{/products}" th:text="#{nav.products}"></a>
+    </div>
+</section>
+</body>
+</html>

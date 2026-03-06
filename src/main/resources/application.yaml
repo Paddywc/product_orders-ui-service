@@ -3,10 +3,36 @@ server:
 
 spring:
   application:
-      name: ui-service
+    name: ui-service
+  profiles:
+    active: web
+
+  security:
+    oauth2:
+      resourceserver:
+        jwt:
+          jwk-set-uri: ${SPRING_SECURITY_OAUTH2_RESOURCESERVER_JWT_JWK_SET_URI:http://auth-service:8083/.well-known/jwks.json}
+
+store:
+  currency: "USD"
 
 services:
   product-service:
-    base-url: http://localhost:8082
+    base-url: http://product-service:8082
   order-service:
-    base-url: http://localhost:8081
+    base-url: http://order-service:8081
+  auth-service:
+    base-url: http://auth-service:8083
+  payment-service:
+    base-url: http://payment-service:8088
+
+
+management:
+  endpoint:
+    health:
+      probes:
+        enabled: true
+  endpoints:
+    web:
+      exposure:
+        include: health,info
